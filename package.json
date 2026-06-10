@@ -1,0 +1,17 @@
+{
+  "name": "supercenter-customer-runtime-cloudflare",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Customer-owned Cloudflare Worker that runs Supercenter agents in your own account.",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "install-runtime": "node scripts/install-runtime.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "wrangler": "^4.0.0"
+  }
+}

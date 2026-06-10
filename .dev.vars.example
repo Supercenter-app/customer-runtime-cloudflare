@@ -1,0 +1,4 @@
+# One-time install token from your Supercenter control plane
+# (Manage → Deployments → New deployment). The Deploy to Cloudflare button
+# prompts for this value and stores it as an encrypted Worker secret.
+INSTALL_TOKEN=

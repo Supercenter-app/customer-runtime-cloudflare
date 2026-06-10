@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "supercenter-customer-runtime",
+  "main": "src/main.ts",
+  "compatibility_date": "2026-06-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    // Point this at your Supercenter control plane. Edit it in the
+    // Deploy to Cloudflare prompt (or here) before deploying.
+    "CONTROL_PLANE_URL": "https://dev.sourcetms.com",
+    "RUNTIME_VERSION": "0.1.0",
+    "PROTOCOL_VERSION": "2026-06-09"
+  },
+  // INSTALL_TOKEN is the only secret required. The Deploy to Cloudflare button
+  // prompts for it (declared in .dev.vars.example). On first request the Worker
+  // generates its own Ed25519 keypair inside this Durable Object — the private
+  // key never leaves your Cloudflare account — self-registers with the control
+  // plane, and discovers the control-plane verification key automatically.
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "REPLAY_STORE",
+        "class_name": "ReplayStoreDurableObject"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["ReplayStoreDurableObject"]
+    }
+  ]
+  // Optional in-account run-transcript residency (D1): not bound here so the
+  // one-click button always deploys cleanly. To keep run transcripts inside
+  // your own account, run `pnpm install-runtime` (it provisions and binds a D1
+  // database for you) or add a `d1_databases` binding named RUN_STORE manually.
+  // Without it the Worker still runs — transcripts go to the control plane.
+}
